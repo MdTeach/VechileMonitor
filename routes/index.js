@@ -1,4 +1,6 @@
 var express = require('express');
+var Vehicle = require('../models/vehicle');
+var mid = require('../middleware/index');
 var router = express.Router();
 
 //Include data model vehicle
@@ -15,7 +17,6 @@ router.get('/register', function(req, res){
 
 //Post / send data from register page
 router.post('/register', function(req, res, next){
-    console.log(req.body);
     const name = req.body.name;
     const number = req.body.number;
     const type = req.body.type;
@@ -24,7 +25,7 @@ router.post('/register', function(req, res, next){
         // create object with form input
         var vData = {
             name: name,
-            number_plate: number,
+            number: number,
             v_type: type
         };
 
@@ -37,6 +38,32 @@ router.post('/register', function(req, res, next){
             }
         });
 
+    }
+});
+
+// /GET login/ => Login  form
+router.get('/login',function(req,res,next){
+    return res.render('login');
+});
+
+// /POST login/ => Login  form / Authenticate the input against db
+router.post('/login',function(req,res,next){
+    const name = req.body.name;
+    const number = req.body.number;
+    if(name && number){
+        //TODO: Authetication
+        Vehicle.authenticate(number, function(err, data){
+            if (err || !data) {
+                var err = new Error('Wrong input.');
+                err.status = 401;
+                return next(err);
+            }else{
+                req.session.Id = data._id;
+                return res.send('Log in sucessfull');
+            }
+        });
+    }else{
+        res.redirect('/login');
     }
 });
 
@@ -55,11 +82,11 @@ router.get('/profiles', (req,res,next)=>{
 
 // GET details/ show the details about the vehicle
 router.get('/details',(req,res,next)=>{
-    const number_plate = req.query.number_plate;
-    if(!number_plate){
+    const number = req.query.number;
+    if(!number){
         return res.redirect('/profiles');    
     }else{
-        Vehicle.findOne({ number_plate:number_plate }, function(err, data) {
+        Vehicle.findOne({ number:number}, function(err, data) {
             if (err) {
                 return next(err);
             } else {

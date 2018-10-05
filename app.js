@@ -1,11 +1,12 @@
 var express = require('express');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').Server(app);
 var socket = require('socket.io');
 
 var Vehicle = require('./models/vehicle');
-
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/transport',{ useNewUrlParser: true });
 
@@ -18,6 +19,16 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("Database connection sucessfull");
 });
+
+// use sessions for tracking logins
+app.use(session({
+  secret: 'Defiant Coders',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
 
 // serve static files from /public
 app.use(express.static(__dirname + '/public'));

@@ -1,0 +1,11 @@
+include inc/header.pug
+.container
+  br
+  h2 Log In the Vehicle
+.container
+  form(method='post')
+    .form-group
+      input#name.form-control(type='text', name='name' aria-describedby='emailHelp', placeholder='Name for the vehicle')
+    .form-group
+      input#number_plate.form-control(type='text', name='number' placeholder='Number plate')
+    button.btn.btn-primary(type='submit') Login
