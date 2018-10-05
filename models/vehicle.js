@@ -5,6 +5,9 @@ var VehicleSchema = mongoose.Schema({
     },
     number:{
         type:String
+    },
+    v_type:{
+        type:String
     }
 })
 var Vehicle = mongoose.model('Vehicle', VehicleSchema);
