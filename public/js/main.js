@@ -1,4 +1,4 @@
-let variance
+let deviation = (new Array(40)).fill(0)
 let cnv = initCanvas()
 document.body.appendChild(cnv)
 let ctx = cnv.getContext("2d")
@@ -14,22 +14,52 @@ ctx_.fillStyle = "#555"
 ctx_.fillRect(0, 0, graph.width, graph.height)
 ctx_.strokeStyle = "black"
 ctx_.strokWidth = 4
+
+
 function renderGraph(){
     let w = graph.width
     let h = graph.height
-
+    
+    ctx_.strokeWidth = 1
+    ctx_.fillStyle = "#555"
+    ctx_.fillRect(0, 0, graph.width, graph.height)
+    ctx_.strokeStyle = "black"
     for(let i = 0; i<20; i++){
         for(let j=0; j<20; j++){
             ctx_.strokeRect(i*w/20, j*h/20, w/20, h/20)
         }
     }
+
+    let tangent = []
+    let diff = []
+    for(i=0; i<dqueue.length-1; i++){
+        let [x1, y1] = dqueue[i]
+        let [x2, y2] = dqueue[i+1]
+        let slope = (y2-y1)/(x2-x1)
+        if(y2-y1!=0&x2-x1!=0){
+            tangent.push(Math.atan(slope))
+            diff.push(Math.abs(y2-y1))
+        }
+    }
+    if(tangent.length){
+        let mean = tangent.reduce((a, x)=> a+x) / tangent.length
+        let raw = tangent.map(el => Math.pow(el-mean, 2))
+        variance = Math.sqrt(raw.reduce((a, x)=> a+x)/raw.length)
+    }
+    else 
+        variance = 0
+    deviation.push(variance)
+    deviation.shift()
+
+    ctx_.strokeWidth = 10
+    ctx_.strokeStyle = "red"
     ctx_.beginPath()
-    ctx_.moveTo(w/2, 0)
-    ctx_.lineTo(w/2, h/2)
-    ctx.stroke( )
-    requestAnimationFrame(renderGraph)
+    ctx_.moveTo(0, h/2+deviation[0])
+    for(let i=1; i<40; i++){
+        ctx_.lineTo(i*h/40, h/2-100*deviation[i])
+    }
+    ctx_.stroke()
 }
-renderGraph()
 
 ctx.font = '50px ariel'
 let gridData = getGridData()
@@ -58,6 +88,8 @@ function trail(){
 }
 
 setInterval(()=>{
+    renderGraph()
+
     vehicle1.az = 0.9*(-90-alpha) + ay/10
     testArr.push([beta, gamma])
 
