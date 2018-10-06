@@ -71,7 +71,6 @@ let vehicle1 = new Vehicle(cnv.width/2, cnv.height/2, cnv.width/50, ctx)
 
 updateState()
 
-let alpha = 0, beta = 0, gamma = 0
 let ax = 0, ay = 0
 let dqueue = []
 

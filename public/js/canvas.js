@@ -1,3 +1,4 @@
+let alpha = 0, beta = 0, gamma = 0
 let initCanvas = () =>{
     let bh = document.body.clientHeight
     let bw = document.body.clientWidth
@@ -54,13 +55,6 @@ initThree = () =>{
     let camera = new THREE.PerspectiveCamera( 75, 1, 0.1, 1000 );
 
     let renderer = new THREE.WebGLRenderer({canvas: canvas3d});
-/*     renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement ); */
-
-/*     let light = new THREE.DirectionalLight( 0xffffff, 1, 100 );
-    light.position.set( 0, 1, 0 ); 		
-    light.castShadow = true;            
-    scene.add( light ); */
 
     var geometry = new THREE.BoxGeometry( 1, 5, 3 );
     var material = new THREE.MeshBasicMaterial( { color: 0x999999 } );
@@ -75,7 +69,11 @@ initThree = () =>{
 
     cube.rotation.z = Math.PI/2
     let animate = () => {
-        cube.rotation.x += .1
+        // cube.rotation.z = Math.PI*alpha/180
+        cube.rotation.y = Math.PI*alpha/180
+        cube.rotation.x = -Math.PI*gamma/180
+        cube.rotation.z = -Math.PI*(beta+90)/180 
+        // cube.rotation.x = Math.PI*alpha/180
         requestAnimationFrame( animate );
         renderer.render(scene, camera);
     };

@@ -3,7 +3,7 @@ var socket = io.connect('http://192.168.1.109:80');
 
 let gn = new GyroNorm()
 let config = {
-    frequency: 20,
+    frequency: 20   ,
     gravitynormalized: true,
     orientationbase: gn.game,
     decimalcount: 2,

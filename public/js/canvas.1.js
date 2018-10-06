@@ -11,7 +11,6 @@ let initCanvas = () =>{
     canvas.height = (bh < bw) ? bh: bw
     canvas.width = canvas.height
     canvas.style.top = (bh/2 - canvas.width/2) + 'px'
-    // canvas.style.left = (bw/2 - canvas.height/2) + 'px'
     canvas.style.left = 0
     return canvas
 }
