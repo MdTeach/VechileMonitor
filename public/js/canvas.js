@@ -62,17 +62,21 @@ initThree = () =>{
     light.castShadow = true;            
     scene.add( light ); */
 
-    var geometry = new THREE.BoxGeometry( 1, .5, 3 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x666666 } );
+    var geometry = new THREE.BoxGeometry( 1, 5, 3 );
+    var material = new THREE.MeshBasicMaterial( { color: 0x999999 } );
     var cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
 
-    camera.position.z = 5;
-    cube.rotation.x = Math.PI/2
 
+    camera.position.z = 5;
+    camera.position.y = 5;
+    camera.position.x = 5;
+    camera.lookAt(new THREE.Vector3(0,0,0))
+
+    cube.rotation.z = Math.PI/2
     let animate = () => {
+        cube.rotation.x += .1
         requestAnimationFrame( animate );
-        cube.rotation.z += .1
         renderer.render(scene, camera);
     };
 

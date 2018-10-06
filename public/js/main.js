@@ -3,8 +3,6 @@ let cnv = initCanvas()
 document.body.appendChild(cnv)
 let ctx = cnv.getContext("2d")
 
-let stateCount = 0
-
 let canvas3d = initCanvas3D()
 document.body.appendChild(canvas3d)
 initThree()

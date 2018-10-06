@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
 });
 
 // GET /profile
-router.get('/vehicle', mid.requiresLogin, function(req, res, next) {
+router.get('/vehicle', function(req, res, next) {
     Vehicle.findById(req.session.Id)
         .exec(function (error, data) {
           if (error) {
@@ -21,6 +21,11 @@ router.get('/vehicle', mid.requiresLogin, function(req, res, next) {
           } 
         });
 });
+
+//GET /for mob
+router.get('/mob',function(req,res,next){
+    res.render('mobV');
+});;
   
 //Get / render register page
 router.get('/register', function(req, res){
@@ -77,7 +82,7 @@ router.post('/login',function(req,res,next){
     }else{
         res.redirect('/login');
     }
-});
+}); 
 
 // GET profiles/ => show the lists of registered vehicles
 router.get('/profiles', (req,res,next)=>{
