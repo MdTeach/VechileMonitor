@@ -10,6 +10,18 @@ router.get('/', function (req, res) {
     res.render('home');
 });
 
+// GET /profile
+router.get('/vehicle', mid.requiresLogin, function(req, res, next) {
+    Vehicle.findById(req.session.Id)
+        .exec(function (error, data) {
+          if (error) {
+            return next(error);
+          } else {
+            return res.render('vehicle', { data:data});
+          } 
+        });
+});
+  
 //Get / render register page
 router.get('/register', function(req, res){
     return res.render('register');
